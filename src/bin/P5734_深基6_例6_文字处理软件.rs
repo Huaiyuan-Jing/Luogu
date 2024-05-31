@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 use std::io;
 
 fn main() {
@@ -8,7 +9,7 @@ fn main() {
     for _ in 0..n {
         let mut op = String::new();
         io::stdin().read_line(&mut op).expect("读取输入失败");
-        let mut op: Vec<String> = op.split_whitespace().map(|word| word.to_string()).collect();
+        let op: Vec<String> = op.split_whitespace().map(|word| word.to_string()).collect();
         match op[0].as_str() {
             "1" => {
                 text.push_str(&op[1]);
