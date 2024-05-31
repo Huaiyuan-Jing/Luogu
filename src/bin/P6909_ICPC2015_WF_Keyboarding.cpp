@@ -1,9 +1,3 @@
-/********************************************************************************
- * @author: Huaiyuan Jing
- * @email: ls.hyjing@gmail.com
- * @version: 1.0
- * @description:
- ********************************************************************************/
 #include <bits/stdc++.h>
 #define LL long long
 #define mp(a, b) make_pair(a, b)
