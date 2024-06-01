@@ -15,7 +15,7 @@ fn main() {
             match line.chars().nth(j) {
                 Some('.') => grid[i][j] = 0,
                 Some('X') => grid[i][j] = -1,
-                Some('*') => {start_x = i as i32; start_y = j as i32; grid[i][j] = 1;},
+                Some('*') => {start_x = i as i32; start_y = j as i32;},
                 _ => panic!("非法输入"),
             }
             ans[i][j] = grid[i][j];
@@ -27,15 +27,16 @@ fn main() {
     for i in 0..num_of_directions {
         let mut line = String::new();
         io::stdin().read_line(&mut line).expect("读取输入失败");
-        match line.trim() {
-            "NORTH" => directions[i] = 0,
-            "EAST" => directions[i] = 1,
-            "SOUTH" => directions[i] = 2,
-            "WEST" => directions[i] = 3,
+        directions[i] = match line.trim() {
+            "NORTH" => 1,
+            "EAST" => 2,
+            "SOUTH" => 3,
+            "WEST" => 0,
             _ => panic!("非法输入"),
         }
     }
-    dfs(Node { x: start_x, y: start_y, step: 0 }, &grid, &directions, &mut ans);
+    let mut visited = vec![vec![vec![false; num_of_directions + 100]; c + 100]; r + 100];
+    dfs(Node { x: start_x, y: start_y, step: 0 }, &grid, &directions, &mut ans, &mut visited);
     for i in 0..r {
         for j in 0..c {
             print!("{}", match ans[i][j] {
@@ -60,11 +61,16 @@ struct Node {
     y: i32,
     step: i32,
 }
-fn dfs(node: Node, grid: &Vec<Vec<i32>>, directions: &Vec<i32>, ans: &mut Vec<Vec<i32>>) {
-    let mask = vec![0, 1, 0, -1, 0];
+fn dfs(node: Node, grid: &Vec<Vec<i32>>, directions: &Vec<i32>, ans: &mut Vec<Vec<i32>>, visited: &mut Vec<Vec<Vec<bool>>>) {
+    let mask = vec![0, -1, 0, 1, 0];
     let mut x = node.x;
     let mut y = node.y;
     let step = node.step;
+    // println!("({}, {}) step: {}", x, y, step);
+    if visited[x as usize][y as usize][step as usize] {
+        return;
+    }
+    visited[x as usize][y as usize][step as usize] = true;
     if step == directions.len() as i32 {
         ans[x as usize][y as usize] = 1;
         return;
@@ -75,6 +81,6 @@ fn dfs(node: Node, grid: &Vec<Vec<i32>>, directions: &Vec<i32>, ans: &mut Vec<Ve
         if x < 0 || x >= grid.len() as i32 || y < 0 || y >= grid[0].len() as i32 || grid[x as usize][y as usize] == -1 {
             break;
         }
-        dfs(Node { x, y, step: step + 1 }, grid, directions, ans);
+        dfs(Node { x, y, step: step + 1 }, grid, directions, ans, visited);
     }
 }
