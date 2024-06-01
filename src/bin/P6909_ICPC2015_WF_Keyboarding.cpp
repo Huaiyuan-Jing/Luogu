@@ -2,24 +2,31 @@
 #define LL long long
 #define mp(a, b) make_pair(a, b)
 using namespace std;
+// 生成下一个状态的函数
 vector<vector<vector<pair<int, int>>>> generate_nxt(int r, int c, vector<string> &map)
 {
+    // 初始化下一个状态的数组
     vector<vector<vector<pair<int, int>>>> nxt(
         r, vector<vector<pair<int, int>>>(c, vector<pair<int, int>>(4, mp(-1, -1))));
+    // 定义方向数组
     vector<int> d = {0, 1, 0, -1, 0};
+    // 遍历地图的每一个位置
     for (int i = 0; i < r; ++i)
     {
         for (int j = 0; j < c; ++j)
         {
+            // 遍历每个位置的四个方向
             for (int k = 0; k < 4; ++k)
             {
                 int tmpx = i + d[k];
                 int tmpy = j + d[k + 1];
+                // 找到相同颜色的连续区域
                 while (tmpx >= 0 && tmpx < r && tmpy >= 0 && tmpy < c && map[tmpx][tmpy] == map[i][j])
                 {
                     tmpx += d[k];
                     tmpy += d[k + 1];
                 }
+                // 如果找到了不超出地图范围的位置，则更新下一个状态数组
                 if (tmpx >= 0 && tmpx < r && tmpy >= 0 && tmpy < c)
                 {
                     nxt[i][j][k] = mp(tmpx, tmpy);
@@ -27,6 +34,7 @@ vector<vector<vector<pair<int, int>>>> generate_nxt(int r, int c, vector<string>
             }
         }
     }
+    // 返回下一个状态数组
     return nxt;
 }
 int bfs(int r, int c, vector<string> &map, vector<vector<vector<pair<int, int>>>> &nxt, string target)
