@@ -1,4 +1,7 @@
 #![allow(non_snake_case)]
+
+mod p4283_aHOI2008_Y型项链;
+
 use std::io;
 
 fn main() {
