@@ -1,3 +1,4 @@
+#![allow(non_snake_case)]
 use std::io;
 
 fn read_numbers_from_input() -> Vec<i32> {
