@@ -14,6 +14,7 @@ struct MaxFlow {
     depth: Vec<usize>,
 }
 impl MaxFlow {
+    /// Creates a new `MaxFlow` instance with `n` nodes, source node `s`, and sink node `t`.
     pub fn new(n: usize, s: usize, t: usize) -> Self {
         Self {
             s,
@@ -24,6 +25,14 @@ impl MaxFlow {
             depth: vec![0; n],
         }
     }
+    
+    /// Adds a directed edge from `from` to `to` with capacity `cap` to the flow network.
+    ///
+    /// # Arguments
+    ///
+    /// `from`: The node from which the edge originates.
+    /// `to`: The node to which the edge points.
+    /// `cap`: The capacity of the edge.
     pub fn add_edge(&mut self, from: usize, to: usize, cap: i32) {
         let m = self.edge.len();
         self.edge.push(Edge {
@@ -41,6 +50,9 @@ impl MaxFlow {
         });
         self.head[to] = m + 1;
     }
+    /// Performs a BFS traversal of the residual graph to mark static nodes and find a shortest path from the source `s` to the sink `t`.
+    ///
+    /// Returns `true` if a path is found, and `false` otherwise.
     fn bfs(&mut self) -> bool {
         let mut q = std::collections::VecDeque::new();
         q.push_back(self.s);
@@ -60,6 +72,16 @@ impl MaxFlow {
         }
         self.depth[self.t] != 0x3f3f3f3f
     }
+    /// Performs a DFS traversal of the residual graph to find a path from node `u` to the sink `t`.
+    ///
+    /// Returns the maximum flow that can be pushed along the path.
+    ///
+    /// # Arguments
+    ///
+    /// `u`: The starting node of the path.
+    /// `flow`: The maximum flow to be pushed along the path.
+    /// `edges`: The vector of edges in the residual graph.
+    /// `cur`: The vector of current edges for each node in the residual graph.
     fn dfs(&self, u: usize, flow: i32, edges: &mut Vec<Edge>, cur: &mut Vec<usize>) -> i32 {
         if u == self.t || flow == 0 {
             return flow;
@@ -75,13 +97,11 @@ impl MaxFlow {
                     edges,
                     cur,
                 );
-                if f > 0 {
-                    edges[e].flow += f;
-                    edges[e ^ 1].flow -= f;
-                    res += f;
-                    if res == flow {
-                        break;
-                    }
+                edges[e].flow += f;
+                edges[e ^ 1].flow -= f;
+                res += f;
+                if res == flow {
+                    break;
                 }
             }
             e = self.edge[e].nxt;
@@ -89,6 +109,11 @@ impl MaxFlow {
         }
         res
     }
+    /// Computes the maximum flow in the flow network using the Dinic's algorithm.
+    ///
+    /// This function repeatedly calls `bfs` to find a shortest augmenting path
+    /// and `dfs` to augment the flow along the path. The maximum flow is
+    /// accumulated in `maxflow` field.
     pub fn dinic(&mut self) {
         while self.bfs() {
             let mut cur = self.head.clone();
