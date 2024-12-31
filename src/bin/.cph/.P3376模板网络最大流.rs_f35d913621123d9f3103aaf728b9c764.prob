@@ -1,0 +1,1 @@
+{"name":"Local: P3376模板网络最大流","url":"/home/hyjing/Code/Luogu/src/bin/P3376模板网络最大流.rs","tests":[{"id":1735666836032,"input":"4 5 4 3\n4 2 30\n4 3 20\n2 3 20\n2 1 30\n1 3 30\n","output":"50\n"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/hyjing/Code/Luogu/src/bin/P3376模板网络最大流.rs","group":"local","local":true}
