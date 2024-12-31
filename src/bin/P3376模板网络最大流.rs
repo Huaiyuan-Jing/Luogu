@@ -1,4 +1,3 @@
-use std::io;
 #[derive(Clone)]
 struct Edge {
     to: usize,
@@ -7,7 +6,6 @@ struct Edge {
     flow: i32,
 }
 struct MaxFlow {
-    n: usize,
     s: usize,
     t: usize,
     head: Vec<usize>,
@@ -18,7 +16,6 @@ struct MaxFlow {
 impl MaxFlow {
     pub fn new(n: usize, s: usize, t: usize) -> Self {
         Self {
-            n,
             s,
             t,
             head: vec![0x3f3f3f3f; n],
@@ -72,7 +69,12 @@ impl MaxFlow {
         while e != 0x3f3f3f3f {
             let v = edges[e].to;
             if self.depth[v] == self.depth[u] + 1 {
-                let f = self.dfs(v, std::cmp::min(flow - res, edges[e].cap - edges[e].flow), edges, cur);
+                let f = self.dfs(
+                    v,
+                    std::cmp::min(flow - res, edges[e].cap - edges[e].flow),
+                    edges,
+                    cur,
+                );
                 if f > 0 {
                     edges[e].flow += f;
                     edges[e ^ 1].flow -= f;
@@ -114,7 +116,7 @@ fn main() {
 }
 fn read_numbers_from_input() -> Vec<i32> {
     let mut input = String::new();
-    io::stdin()
+    std::io::stdin()
         .read_line(&mut input)
         .expect("Failed to get input");
     input
