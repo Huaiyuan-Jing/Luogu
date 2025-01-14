@@ -4,4 +4,6 @@ impl Solution {
         nums.iter().filter(|&x| *x < k).count() as i32
     }
 }
-fn main() {}
+fn main() {
+    println!("{}", Solution::min_operations(vec![1, 2, 3, 4], 5));
+}
