@@ -12,4 +12,6 @@ impl Solution {
         ed as i32
     }
 }
-fn main() {}
+fn main() {
+    println!("{}", Solution::remove_duplicates(&mut vec![0, 0, 1, 1, 1, 1, 2, 3, 3]));
+}
