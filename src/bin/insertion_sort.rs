@@ -1,11 +1,11 @@
 fn main() {
-    let t = read_numbers_from_input()[0];
+    let t = read_i32();
     for _ in 0..t {
         test_case();
     }
 }
 fn test_case() {
-    let n = read_numbers_from_input()[0];
+    let n = read_i32();
     let arr = read_numbers_from_input();
     let mut bit = FenwickTree::new(1000000);
     let mut ans = 0;
@@ -24,6 +24,27 @@ fn read_numbers_from_input() -> Vec<i32> {
         .split_whitespace()
         .filter_map(|word| word.parse::<i32>().ok())
         .collect()
+}
+
+fn read_i32() -> i32 {
+    use std::io::{self, Read, Write};
+    let mut number = String::new();
+    io::stdout().flush().unwrap();
+    let mut stdin = io::stdin();
+    let mut buffer = [0; 1];
+    while let Ok(()) = stdin.read_exact(buffer.as_mut()) {
+        let c = buffer[0] as char;
+        if number.is_empty() && c == '-' {
+            number.push(c);
+            continue;
+        }
+        if c.is_numeric() {
+            number.push(c);
+        } else {
+            break;
+        }
+    }
+    number.parse::<i32>().unwrap_or(0)
 }
 struct FenwickTree {
     tree: Vec<i32>,
