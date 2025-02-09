@@ -3,12 +3,14 @@ fn main() {
     let l = read_i32();
     let m = read_i32();
     let mut max_n = -i32::MAX;
-    let mut cases = vec![0; m as usize];
-    for i in 0..m as usize {
-        cases[i] = read_i32();
+    let mut cases = vec![];
+    for _ in 0..m {
+        let n = read_i32();
+        cases.push(n);
         max_n = max_n.max(cases[cases.len() - 1]);
     }
     let opt = can_A_win(k, l, max_n);
+    // println!("{:?}", cases);
     for i in 0..m as usize {
         if opt[cases[i] as usize] {
             print!("A");
