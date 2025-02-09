@@ -1,0 +1,1 @@
+{"name":"Local: MCOINS_Coins_Game","url":"/home/hyjing/Code/Luogu/src/bin/MCOINS_Coins_Game.rs","tests":[{"id":1739132000467,"input":"2 3 5 \n3 12 113 25714 88888","output":"ABAAB"}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/hyjing/Code/Luogu/src/bin/MCOINS_Coins_Game.rs","group":"local","local":true}
